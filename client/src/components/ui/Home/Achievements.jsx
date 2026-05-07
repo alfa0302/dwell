@@ -10,7 +10,7 @@ export default function Achievements() {
   return (
     <div className="flex gap-5">
       {achievements.map((item, index) => (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1" key={`achievement-${index}`}>
           <div className="text-4xl font-semibold">
             {item.value}
             {item.plus ? " +" : ""}
