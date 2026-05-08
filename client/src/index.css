@@ -13,3 +13,17 @@
     font-family: 'Lato', sans-serif;
   }
 }
+
+/* hero */
+.btn-primary {
+  @apply uppercase text-white font-semibold bg-yellow-500 py-2 text-sm px-8 cursor-pointer
+}
+
+.btn-secondary {
+  @apply uppercase text-yellow-500 font-semibold border border-yellow-500 py-2 px-8 cursor-pointer text-sm
+}
+
+/* about page */
+.corner-clip {
+  clip-path: inset(0px 0 0 0 round 200px 200px 0 0);
+}

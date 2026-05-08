@@ -21,23 +21,19 @@ export default function Navbar({ theme = "light" }) {
               <a href="#">Home</a>
             </li>
             <li>
-              <a href="#">About</a>
+              <a href="#about">About</a>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <a href="#contact">Contact</a>
             </li>
-            <li>
+            {/* <li>
               <a href="#">Agents</a>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div className="flex gap-5 items-center justify-center text-sm">
-          <button className="uppercase text-white font-semibold bg-yellow-500 py-2 text-sm px-8 cursor-pointer">
-            Login
-          </button>
-          <button className="uppercase text-yellow-500 font-semibold border border-yellow-500 py-2 px-8 cursor-pointer text-sm">
-            Sign Up
-          </button>
+          <button className="btn-primary">Login</button>
+          <button className="btn-secondary">Sign Up</button>
         </div>
       </div>
     </header>
