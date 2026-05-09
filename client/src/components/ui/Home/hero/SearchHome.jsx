@@ -4,8 +4,8 @@ import { CiSearch } from "react-icons/ci";
 export default function SearchHome() {
   const [formData, setFormData] = useState({
     location: "",
-    minPrice: 0,
-    maxPrice: 0,
+    minPrice: "",
+    maxPrice: "",
     category: "buy",
   });
   const [selectedButton, setSelectedButton] = useState("b1");
@@ -30,7 +30,7 @@ export default function SearchHome() {
     <div>
       <div className="flex">
         <button
-          className={`py-3 px-3 text-sm cursor-pointer text-white ${selectedButton === "b1" ? "bg-black text-white" : "border border-b-0 border-white bg-transparent"}`}
+          className={`py-3 px-3 text-sm cursor-pointer text-white ${selectedButton === "b1" ? "bg-black text-white" : "border border-b-0 border-r-0 border-white bg-transparent"}`}
           onClick={() => {
             handleClick("buy");
             setSelectedButton("b1");
@@ -39,7 +39,7 @@ export default function SearchHome() {
           Buy
         </button>
         <button
-          className={`py-3 px-3 text-sm cursor-pointer text-white ${selectedButton === "b2" ? "bg-black text-white" : " border border-b-0 border-white bg-transparent"}`}
+          className={`py-3 px-3 text-sm cursor-pointer text-white ${selectedButton === "b2" ? "bg-black text-white" : " border border-b-0 border-l-0 border-white bg-transparent"}`}
           onClick={() => {
             handleClick("rent");
             setSelectedButton("b2");
