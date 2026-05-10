@@ -7,8 +7,9 @@ import PropertyMap from "../components/ui/PropertyMap";
 const properties = [
   {
     id: 1,
-    image:
+    images: [
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200&auto=format&fit=crop",
+    ],
     title: "Luxury Marina Apartment",
     location: "Dubai Marina, Dubai",
     type: "rent",
@@ -20,8 +21,9 @@ const properties = [
   },
   {
     id: 2,
-    image:
+    images: [
       "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200&auto=format&fit=crop",
+    ],
     title: "Modern Downtown Condo",
     location: "Downtown Dubai, Dubai",
     type: "buy",
@@ -33,8 +35,9 @@ const properties = [
   },
   {
     id: 3,
-    image:
+    images: [
       "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+    ],
     title: "Palm Jumeirah Beach House",
     location: "Palm Jumeirah, Dubai",
     type: "buy",
@@ -46,8 +49,9 @@ const properties = [
   },
   {
     id: 4,
-    image:
+    images: [
       "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop",
+    ],
     title: "Cozy Family Apartment",
     location: "Jumeirah Village Circle, Dubai",
     type: "rent",
@@ -59,8 +63,9 @@ const properties = [
   },
   {
     id: 5,
-    image:
+    images: [
       "https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=1200&auto=format&fit=crop",
+    ],
     title: "Elegant Villa with Pool",
     location: "Arabian Ranches, Dubai",
     type: "buy",
@@ -74,14 +79,12 @@ const properties = [
 
 export default function Listing() {
   return (
-    <div className="h-screen">
+    <div className="min-h-screen">
       <PageLayout>
-        <div>
-          <FilterForm />
-          <div className="px-30 grid grid-cols-2 gap-5 oveflow-auto">
-            <List properties={properties} />
-            <PropertyMap properties={properties} />
-          </div>
+        <FilterForm />
+        <div className="px-30 grid grid-cols-2 gap-5 oveflow-auto">
+          <List properties={properties} />
+          <PropertyMap properties={properties} />
         </div>
       </PageLayout>
     </div>

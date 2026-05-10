@@ -13,7 +13,7 @@ export default function List({ properties }) {
           <div className="flex border border-gray-200 rounded-lg items-stretch">
             <div className="w-[40%]">
               <img
-                src={item.image}
+                src={item.images[0]}
                 alt="property image"
                 className="h-full w-full object-cover rounded-l-lg"
               />

@@ -24,7 +24,7 @@ export default function Contact() {
         <div className="flex flex-col gap-2 justify-center items-center">
           <div className="flex items-center gap-2">
             <HiOutlineMail className="text-xl" />
-            <span>support@appname.com</span>
+            <span>support@dwell.com</span>
           </div>
           <div className="flex items-center gap-2">
             <HiOutlinePhone className="text-xl" />
