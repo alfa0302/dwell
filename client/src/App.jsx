@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import Home from "./pages/Home";
 import Listing from "./pages/Listing";
 import PropertyList from "./pages/PropertyList";
+import Profile from "./pages/Profile";
 
 export default function App() {
   return (
@@ -12,6 +13,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/list" element={<Listing />} />
         <Route path="/list/:id" element={<PropertyList />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );

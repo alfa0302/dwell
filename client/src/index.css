@@ -11,12 +11,13 @@
   body {
     overflow-x: hidden;
     font-family: 'Lato', sans-serif;
+    letter-spacing: 0.8px;
   }
 }
 
 /* hero */
 .btn-primary {
-  @apply uppercase text-white font-semibold bg-yellow-500 py-2 text-sm px-8 cursor-pointer
+  @apply uppercase text-white bg-yellow-500 py-1.5 text-sm px-6 cursor-pointer
 }
 
 .btn-secondary {
@@ -26,4 +27,16 @@
 /* about page */
 .corner-clip {
   clip-path: inset(0px 0 0 0 round 200px 200px 0 0);
+}
+
+.custom-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  display: none;
+  background: transparent;
 }

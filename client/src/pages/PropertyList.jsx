@@ -95,8 +95,8 @@ export default function PropertyList() {
   return (
     <div className="">
       <PageLayout>
-        <div className="px-30 grid grid-cols-2 gap-10">
-          <div className="mt-20 pb-20">
+        <div className="px-30 flex gap-10">
+          <div className="mt-20 pb-20 w-[55%]">
             <PropertyImages
               images={property?.images}
               onClick={() => setOpenSlider(true)}
@@ -110,13 +110,13 @@ export default function PropertyList() {
                     {property?.location}
                   </p>
                   <div className="mt-3">
-                    <span className="bg-yellow-200 text-gray-600 py-2 px-4 text-lg rounded-lg font-bold">
+                    <span className="bg-yellow-100 text-gray-600 py-2 px-4 text-lg rounded-lg font-bold">
                       AED {formatPrice(property?.price)}
                       {property?.type === "rent" ? "/month" : ""}
                     </span>
                   </div>
                 </div>
-                <div className="w-32 h-32 bg-yellow-200 flex flex-col items-center justify-center gap-1 rounded-lg">
+                <div className="w-32 h-32 bg-yellow-100 flex flex-col items-center justify-center gap-1 rounded-lg">
                   <img
                     src={property?.user?.avatar}
                     alt="profile pic"
@@ -139,7 +139,7 @@ export default function PropertyList() {
                 <div className="flex items-center gap-3">
                   <VscTools className="text-xl text-gray-600" />
                   <div>
-                    <h4 className="font-semibold text-sm">Utilities</h4>
+                    <h4 className=" text-sm">Utilities</h4>
                     <span className="text-sm text-gray-600">
                       {property?.policies?.utilities}
                     </span>
@@ -148,7 +148,7 @@ export default function PropertyList() {
                 <div className="flex items-center gap-3">
                   <MdOutlinePets className="text-xl text-gray-600" />
                   <div>
-                    <h4 className="font-semibold text-sm">Pet Policy</h4>
+                    <p className="text-sm">Pet Policy</p>
                     <span className="text-sm text-gray-600">
                       {property?.policies?.petPolicy}
                     </span>
@@ -157,7 +157,7 @@ export default function PropertyList() {
                 <div className="flex items-center gap-3">
                   <FaMoneyCheckAlt className="text-xl text-gray-600" />
                   <div>
-                    <h4 className="font-semibold text-sm">Property Fees</h4>
+                    <h4 className="text-sm">Property Fees</h4>
                     <span className="text-sm text-gray-600">
                       {property?.policies?.propertyFees}
                     </span>
