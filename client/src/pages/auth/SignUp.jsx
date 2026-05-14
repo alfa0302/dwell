@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "../../components/ui/Input";
 import { FaRegUser } from "react-icons/fa";
+import { isValidEmail } from "../../utils/helper";
+import useAuthStore from "../../store/authStore";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp({ setShow }) {
   const [formData, setFormData] = useState({
@@ -8,12 +13,15 @@ export default function SignUp({ setShow }) {
     email: "",
     password: "",
     confirmPassword: "",
-    profilePhoto: null,
+    avatar: "",
   });
-
+  const [image, setImage] = useState(null);
+  const [formError, setFormError] = useState("");
   const [preview, setPreview] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  const { register, loading, error } = useAuthStore();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -24,58 +32,66 @@ export default function SignUp({ setShow }) {
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
-
     if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        profilePhoto: file,
-      }));
-
+      setImage(file);
       setPreview(URL.createObjectURL(file));
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    setError("");
-
+    setFormError("");
     if (
       !formData.username ||
       !formData.email ||
       !formData.password ||
       !formData.confirmPassword
     ) {
-      return setError("All fields are required");
+      return setFormError("All fields are required");
     }
-
+    if (!isValidEmail(formData.email)) {
+      return setFormError("Invalid email");
+    }
     if (formData.password !== formData.confirmPassword) {
-      return setError("Passwords do not match");
+      return setFormError("Passwords do not match");
     }
-
     try {
-      setLoading(true);
-
-      console.log(formData);
-
-      // api call here
-
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+      await register(formData);
+      if (image) {
+        const uploadData = new FormData();
+        uploadData.append("image", image);
+        const response = await axiosInstance.post(
+          API_PATHS.UPLOAD.IMAGE,
+          uploadData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          },
+        );
+      }
+      navigate("/");
     } catch (err) {
-      setLoading(false);
-      setError("Something went wrong");
+      console.error(err);
     }
   };
 
+  // revoke preview url to prevent memory leak
+  useEffect(() => {
+    return () => {
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
+
   return (
-    <div className="flex flex-col gap-3 border border-gray-300 rounded-lg p-5 min-w-[30%]">
-      <h2 className="text-xl font-semibold">Sign Up</h2>
+    <div className="flex flex-col min-w-[50%] gap-3 md:min-w-[70%] lg:min-w-[50%]">
+      <h2 className="text-xl font-semibold">Welcome to Dwell!</h2>
 
-      <h3 className="text-sm">Create your account to continue</h3>
+      <h3 className="text-sm text-gray-500">Create your account to continue</h3>
 
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-5 mt-5" onSubmit={handleSubmit}>
         <div className="flex flex-col items-center gap-3">
           <div className="w-20 h-20 rounded-full overflow-hidden border border-gray-300 bg-gray-100 flex items-center justify-center">
             {preview ? (
@@ -98,7 +114,6 @@ export default function SignUp({ setShow }) {
             />
           </label>
         </div>
-
         <Input
           type="text"
           title="username"
@@ -130,14 +145,12 @@ export default function SignUp({ setShow }) {
           placeholder="confirm password"
           onChange={handleChange}
         />
-
         <button type="submit" className="btn-primary rounded-lg">
-          {loading ? "Please wait..." : "Sign Up"}
+          {loading ? "Please Wait" : "Sign Up"}
         </button>
       </form>
-
-      <p className="text-red-500 text-sm">{error}</p>
-
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {formError && <p className="text-red-500 text-sm">{formError}</p>}
       <button
         className="text-sm cursor-pointer"
         onClick={() => setShow("login")}

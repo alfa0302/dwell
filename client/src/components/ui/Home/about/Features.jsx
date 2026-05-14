@@ -37,8 +37,11 @@ const features = [
 export default function Features({ item }) {
   return (
     <div className="grid grid-cols-3 px-20 gap-20 mt-30">
-      {features.map((item) => (
-        <div className="bg-white text-slate-800 flex flex-col items-center gap-3 p-5 rounded-lg hover:shadow-2xl italic">
+      {features.map((item, index) => (
+        <div
+          className="bg-white text-slate-800 flex flex-col items-center gap-3 p-5 rounded-lg hover:shadow-2xl italic"
+          key={`feature-${index}`}
+        >
           <span className="">{item.icon}</span>
           <h5 className="text-center">{item.title}</h5>
         </div>

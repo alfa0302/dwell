@@ -1,14 +1,21 @@
 const express = require("express");
 require("dotenv").config();
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const dbConnect = require("./config/db");
 const path = require("path");
 const authRouter = require("./routes/authRoutes");
 
 const app = express();
 
-app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

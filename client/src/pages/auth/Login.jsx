@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Input from "../../components/ui/Input";
+import useAuthStore from "../../store/authStore";
 
 export default function Login({ setShow }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [formError, setFormError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -15,14 +17,27 @@ export default function Login({ setShow }) {
       [e.target.name]: e.target.value,
     }));
   };
-  const handleSubmit = (e) => {
+
+  const { login, error, loading } = useAuthStore();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormError("");
+    if (!formData.email || !formData.password) {
+      return setFormError("All fields are required");
+    }
+    try {
+      await login(formData);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
-    <div className="flex flex-col gap-3 border border-gray-300 rounded-lg p-5 min-w-[30%]">
-      <h2 className="text-xl font-semibold">Login</h2>
-      <h3 className="text-sm">Enter your credentials to login</h3>
-      <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+    <div className="flex flex-col gap-3 min-w-[50%] md:min-w-[70%] lg:min-w-[50%]">
+      <h2 className="text-xl font-semibold ">Welcome Back to Dwell!</h2>
+      <h3 className="text-sm text-gray-500">Sign in to your account</h3>
+      <form className="flex flex-col gap-5 mt-5" onSubmit={handleSubmit}>
         <Input
           type="text"
           title="email"
@@ -38,18 +53,17 @@ export default function Login({ setShow }) {
           onChange={handleChange}
         />
         <button type="submit" className="btn-primary rounded-lg">
-          Login
+          {loading ? "Please wait" : "Login"}
         </button>
       </form>
-      <p className="text-red-500 text-sm">{error}</p>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      {formError && <p className="text-red-500 text-sm">{formError}</p>}
       <button
         className="text-sm cursor-pointer"
         onClick={() => setShow("signup")}
       >
         Don't have an account?{" "}
-        <span className=" text-yellow-500 font-semibold">
-          {loading ? "Please wait" : "Login"}
-        </span>
+        <span className=" text-yellow-500 font-semibold">Sign Up</span>
       </button>
     </div>
   );

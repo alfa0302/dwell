@@ -3,3 +3,7 @@ export function formatPrice(price) {
     maximumFractionDigits: 0,
   }).format(price);
 }
+
+export function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}

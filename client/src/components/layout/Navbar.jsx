@@ -1,19 +1,11 @@
 import React from "react";
 import Logo from "../ui/Logo";
+import useAuthStore from "../../store/authStore";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../../utils/apiPaths";
 
 export default function Navbar({ theme = "light" }) {
-  const user = {
-    id: "user_98765",
-    name: "Ahmed Hassan",
-    avatar:
-      "https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0=",
-    role: "Premium Agent",
-    email: "ahmedhassan@gmail.com",
-    phone: "+971 50 123 4567",
-    whatsapp: "+971 50 123 4567",
-    joinedDate: "January 2023",
-  };
+  const user = useAuthStore((state) => state.user);
   return (
     <header className="my-5 absolute z-50 left-0 right-0 top-0">
       <div className="w-[70%] mx-auto flex justify-between">
@@ -26,7 +18,7 @@ export default function Navbar({ theme = "light" }) {
               Dwell
             </div>
           </Link>
-          <ul
+          {/* <ul
             className={`flex gap-10 text-sm ${theme === "light" ? "text-white" : "text-gray-600 font-semibold"}`}
           >
             <li>
@@ -38,10 +30,7 @@ export default function Navbar({ theme = "light" }) {
             <li>
               <a href="#contact">Contact</a>
             </li>
-            {/* <li>
-              <a href="#">Agents</a>
-            </li> */}
-          </ul>
+          </ul> */}
         </div>
         {user ? (
           <div className="flex gap-5 items-center justify-center text-sm">

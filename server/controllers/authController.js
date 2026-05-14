@@ -5,10 +5,16 @@ const bcrypt = require("bcrypt");
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
+const cookieOptions = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+};
 
 const signInUser = async (req, res) => {
   try {
-    const { username, email, password, avatar } = req.body;
+    const { username, email, password } = req.body;
     if (!username || !password || !email) {
       return res.status(400).json({
         success: false,
@@ -33,9 +39,9 @@ const signInUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      avatar,
     });
     const token = generateToken(user._id);
+    res.cookie("token", token, cookieOptions);
     res.status(201).json({
       success: true,
       data: {
@@ -43,7 +49,6 @@ const signInUser = async (req, res) => {
         username: user.username,
         email: user.email,
         avatar: user.avatar,
-        token,
       },
     });
   } catch (error) {
@@ -78,6 +83,7 @@ const loginUser = async (req, res) => {
       });
     }
     const token = generateToken(user._id);
+    res.cookie("token", token, cookieOptions);
     res.status(200).json({
       success: true,
       data: {
@@ -85,7 +91,6 @@ const loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         avatar: user.avatar,
-        token,
       },
     });
   } catch (error) {
@@ -96,5 +101,33 @@ const loginUser = async (req, res) => {
     });
   }
 };
+const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+const avatarUpload = async (req, res) => {
+  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+  req.user.avatar = imageUrl;
+  await req.user.save();
+  res.status(200).json({
+    success: true,
+    data: req.user,
+  });
+};
 
-module.exports = { loginUser, signInUser };
+module.exports = { loginUser, signInUser, logoutUser, avatarUpload };

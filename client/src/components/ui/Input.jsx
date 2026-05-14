@@ -9,13 +9,13 @@ export default function Input({ type, title, label, placeholder, onChange }) {
         <label htmlFor={title} className="text-sm">
           {label}
         </label>
-        <div className="border border-gray-300 py-2 px-3 rounded-lg flex justify-between gap-1">
+        <div className="border border-black py-2 px-3 rounded-lg flex justify-between gap-1">
           <input
             type={showPassword ? "text" : "password"}
             id={title}
             name={title}
             placeholder={placeholder}
-            className="flex-1 outline-none"
+            className="flex-1 outline-none text-sm"
             onChange={onChange}
           />
           <button
@@ -34,13 +34,13 @@ export default function Input({ type, title, label, placeholder, onChange }) {
         <label htmlFor={title} className="text-sm">
           {label}
         </label>
-        <div className="border border-gray-300 py-2 px-3 rounded-lg flex justify-between gap-1">
+        <div className="border border-black py-2 px-3 rounded-lg flex justify-between gap-1">
           <input
-            type={showPassword ? "text" : "password"}
+            type="text"
             id={title}
             name={title}
             placeholder={placeholder}
-            className="flex-1 outline-none"
+            className="flex-1 outline-none text-sm"
             onChange={onChange}
           />
         </div>
