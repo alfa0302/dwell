@@ -23,7 +23,12 @@ const UserSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: "/uploads/default-profile-picture.webp",
+      default: `${process.env.SERVER_URL}/uploads/default-profile-picture.webp`,
+    },
+    role: {
+      type: String,
+      required: true,
+      enum: ["admin", "buyer", "agent"],
     },
   },
   { timestamps: true },

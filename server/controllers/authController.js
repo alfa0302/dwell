@@ -14,8 +14,8 @@ const cookieOptions = {
 
 const signInUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-    if (!username || !password || !email) {
+    const { username, email, password, role } = req.body;
+    if (!username || !password || !email || !role) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -25,6 +25,13 @@ const signInUser = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Password should be atleast 8 characters",
+      });
+    }
+    const roles = ["buyer", "agent"];
+    if (!roles.includes(role)) {
+      return res.status(400).json({
+        success: false,
+        message: "Role should be buyer or agent",
       });
     }
     const existingUser = await User.findOne({ email });
@@ -39,6 +46,7 @@ const signInUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role,
     });
     const token = generateToken(user._id);
     res.cookie("token", token, cookieOptions);
@@ -48,6 +56,7 @@ const signInUser = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
         avatar: user.avatar,
       },
     });
