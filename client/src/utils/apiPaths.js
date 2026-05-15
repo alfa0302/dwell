@@ -12,4 +12,10 @@ export const API_PATHS = {
   USER: {
     GET: "/api/user",
   },
+  POST: {
+    CREATE: "/api/posts",
+    GETALL: "/api/posts",
+    GETBYID: (id) => `/api/posts/:id`,
+    GETBYUSERID: (id) => `/api/posts/user/:id`,
+  },
 };

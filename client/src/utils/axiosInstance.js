@@ -5,10 +5,10 @@ const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   withCredentials: true, //for cookies
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  //   Accept: "application/json",
+  // },
 });
 
 axiosInstance.interceptors.response.use(

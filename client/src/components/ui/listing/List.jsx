@@ -3,9 +3,9 @@ import PropertyListBox from "./PropertyListBox";
 
 export default function List({ properties }) {
   return (
-    <div className="flex flex-col gap-5 oveflow-y-auto">
+    <div className="grid grid-cols-3 gap-5">
       {properties.map((item, index) => (
-        <PropertyListBox item={item} />
+        <PropertyListBox item={item} key={`list_${index}`} />
       ))}
     </div>
   );

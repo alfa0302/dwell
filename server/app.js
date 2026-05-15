@@ -5,6 +5,8 @@ const cookieParser = require("cookie-parser");
 const dbConnect = require("./config/db");
 const path = require("path");
 const authRouter = require("./routes/authRoutes");
+const postsRouter = require("./routes/postRoutes");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/posts", postsRouter);
+app.use("/api/user", userRouter);
 
 app.use((req, res) => {
   res.status(404).json({

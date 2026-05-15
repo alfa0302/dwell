@@ -111,6 +111,7 @@ export default function SignUp({ setShow }) {
               accept="image/*"
               className="hidden"
               onChange={handlePhotoChange}
+              required={false}
             />
           </label>
         </div>
@@ -119,6 +120,7 @@ export default function SignUp({ setShow }) {
           title="username"
           label="Enter username"
           placeholder="username"
+          value={formData.username}
           onChange={handleChange}
         />
 
@@ -127,6 +129,7 @@ export default function SignUp({ setShow }) {
           title="email"
           label="Enter email"
           placeholder="email"
+          value={formData.email}
           onChange={handleChange}
         />
 
@@ -135,6 +138,7 @@ export default function SignUp({ setShow }) {
           title="password"
           label="Enter password"
           placeholder="password"
+          value={formData.password}
           onChange={handleChange}
         />
 
@@ -143,6 +147,7 @@ export default function SignUp({ setShow }) {
           title="confirmPassword"
           label="Confirm password"
           placeholder="confirm password"
+          value={formData.confirmPassword}
           onChange={handleChange}
         />
         <button type="submit" className="btn-primary rounded-lg">

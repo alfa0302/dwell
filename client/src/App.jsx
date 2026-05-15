@@ -7,13 +7,14 @@ import PropertyList from "./pages/PropertyList";
 import Profile from "./pages/Profile";
 import Auth from "./pages/Auth";
 import useAuthStore from "./store/authStore";
+import CreateListing from "./pages/CreateListing";
 import ProtectRoute from "./pages/ProtectRoute";
 
 export default function App() {
-  // const getCurrentUser = useAuthStore((state)=>state.getCurrentUser)
-  // useEffect(()=>{
-  //   getCurrentUser();
-  // },[])
+  const fetchCurrentUser = useAuthStore((state) => state.fetchCurrentUser);
+  useEffect(() => {
+    fetchCurrentUser();
+  }, []);
   return (
     <BrowserRouter>
       <Routes>
@@ -43,6 +44,7 @@ export default function App() {
           }
         />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/create-listing" element={<CreateListing />} />
       </Routes>
     </BrowserRouter>
   );

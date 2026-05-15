@@ -12,9 +12,9 @@ const cookieOptions = {
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
 
-const signInUser = async (req, res) => {
+const signUpUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
     if (!username || !password || !email) {
       return res.status(400).json({
         success: false,
@@ -25,6 +25,12 @@ const signInUser = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "Password should be atleast 8 characters",
+      });
+    }
+    if (role !== "user") {
+      return res.status(400).json({
+        success: false,
+        message: "Role should be user",
       });
     }
     const existingUser = await User.findOne({ email });
@@ -39,6 +45,7 @@ const signInUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role,
     });
     const token = generateToken(user._id);
     res.cookie("token", token, cookieOptions);
@@ -48,6 +55,7 @@ const signInUser = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
         avatar: user.avatar,
       },
     });
@@ -130,4 +138,4 @@ const avatarUpload = async (req, res) => {
   });
 };
 
-module.exports = { loginUser, signInUser, logoutUser, avatarUpload };
+module.exports = { loginUser, signUpUser, logoutUser, avatarUpload };
