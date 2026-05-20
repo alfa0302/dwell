@@ -8,7 +8,7 @@ export default function Navbar({ theme = "light" }) {
   const user = useAuthStore((state) => state.user);
   return (
     <header className="my-5 absolute z-50 left-0 right-0 top-0">
-      <div className="w-[70%] mx-auto flex justify-between">
+      <div className="px-30 flex justify-between">
         <div className="flex gap-10 items-center">
           <Link className="flex items-center" to="/">
             <Logo className={`h-10 ${theme === "light" ? "text-white" : ""}`} />

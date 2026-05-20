@@ -15,7 +15,7 @@ export const API_PATHS = {
   POST: {
     CREATE: "/api/posts",
     GETALL: "/api/posts",
-    GETBYID: (id) => `/api/posts/:id`,
-    GETBYUSERID: (id) => `/api/posts/user/:id`,
+    GETBYID: (id) => `/api/posts/${id}`,
+    GETBYUSERID: (id) => `/api/posts/user/${id}`,
   },
 };

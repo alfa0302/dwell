@@ -7,8 +7,11 @@ const path = require("path");
 const authRouter = require("./routes/authRoutes");
 const postsRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
+const savedPostRouter = require("./routes/savedPostRoutes");
 
 const app = express();
+console.log(process.env.MONGO_URI_DEV);
+dbConnect();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -21,8 +24,6 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-dbConnect();
-
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -33,6 +34,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postsRouter);
 app.use("/api/user", userRouter);
+app.use("/api/saved-post", savedPostRouter);
 
 app.use((req, res) => {
   res.status(404).json({
