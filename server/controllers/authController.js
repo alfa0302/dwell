@@ -99,6 +99,7 @@ const loginUser = async (req, res) => {
         username: user.username,
         email: user.email,
         avatar: user.avatar,
+        joined: user.createdAt,
       },
     });
   } catch (error) {

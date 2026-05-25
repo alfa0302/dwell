@@ -8,6 +8,8 @@ const authRouter = require("./routes/authRoutes");
 const postsRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const savedPostRouter = require("./routes/savedPostRoutes");
+const chatRouter = require("./routes/chatRoutes");
+const messageRouter = require("./routes/messageRoutes");
 
 const app = express();
 console.log(process.env.MONGO_URI_DEV);
@@ -35,6 +37,8 @@ app.use("/api/auth", authRouter);
 app.use("/api/posts", postsRouter);
 app.use("/api/user", userRouter);
 app.use("/api/saved-post", savedPostRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/message", messageRouter);
 
 app.use((req, res) => {
   res.status(404).json({

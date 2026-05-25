@@ -9,7 +9,7 @@ import { formatPrice } from "../../../utils/helper";
 
 export default function PropertyListBox({ item }) {
   return (
-    <div className="bg-white border-gray-200 p-5 rounded-lg">
+    <div className="border border-gray-300 p-5 rounded-lg">
       <div className="w-full">
         <img
           src={item.images[0]}

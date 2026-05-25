@@ -8,7 +8,9 @@ export default function Navbar({ theme = "light" }) {
   const user = useAuthStore((state) => state.user);
   return (
     <header className="my-5 absolute z-50 left-0 right-0 top-0">
-      <div className="px-30 flex justify-between">
+      <div
+        className={`mx-10 px-5 py-2 flex justify-between items-center ${theme !== "light" ? "bg-white rounded-xl" : "bg-none"}`}
+      >
         <div className="flex gap-10 items-center">
           <Link className="flex items-center" to="/">
             <Logo className={`h-10 ${theme === "light" ? "text-white" : ""}`} />
@@ -18,29 +20,29 @@ export default function Navbar({ theme = "light" }) {
               Dwell
             </div>
           </Link>
-          {/* <ul
-            className={`flex gap-10 text-sm ${theme === "light" ? "text-white" : "text-gray-600 font-semibold"}`}
-          >
-            <li>
-              <a href="#">Home</a>
-            </li>
-            <li>
-              <a href="#about">About</a>
-            </li>
-            <li>
-              <a href="#contact">Contact</a>
-            </li>
-          </ul> */}
         </div>
+        <ul
+          className={`flex gap-10 text-sm ${theme === "light" ? "text-white" : "text-black font-semibold"}`}
+        >
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/list">Listings</a>
+          </li>
+          <li>
+            <a href="#">Contact</a>
+          </li>
+        </ul>
         {user ? (
           <div className="flex gap-5 items-center justify-center text-sm">
             <img
               src={user?.avatar}
               alt="profile picture"
-              className="h-10 w-10 object-cover object-top rounded-full"
+              className="h-8 w-8 object-cover object-top rounded-full border border-gray-200"
             />
             <Link to="/profile">
-              <button className="btn-primary">Profile</button>
+              <button className="btn-secondary">Profile</button>
             </Link>
           </div>
         ) : (

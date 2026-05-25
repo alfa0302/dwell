@@ -81,7 +81,7 @@ export default function Details({ details, utilities }) {
         return (
           <div
             key={item.key}
-            className="flex items-center gap-2 bg-yellow-100 py-1 px-2 rounded-lg text-gray-700"
+            className="flex items-center gap-2 bg-gray-300 py-1 px-2 rounded-lg text-gray-700"
           >
             <Icon />
             <span>{text}</span>

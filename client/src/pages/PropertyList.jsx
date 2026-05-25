@@ -51,25 +51,34 @@ export default function PropertyList() {
                 <IoLocationOutline /> {listingData?.location?.address}
               </p>
             </div>
-            <SaveListing userId={listingData?.userId} />
+            <SaveListing postId={listingData?._id} />
           </div>
           <div className="flex mb-5">
-            <div className="flex-1 p-2 grow">
-              <img
-                src={listingData?.images[0]}
-                alt="property image"
-                className="w-full h-full object-cover rounded-xl"
-              />
+            <div className="flex-1 p-2">
+              {listingData?.images?.[0] && (
+                <img
+                  src={listingData.images[0]}
+                  alt="property image"
+                  className="w-full h-full object-cover rounded-xl"
+                />
+              )}
             </div>
             <div className="w-[30%] flex flex-col p-2 gap-2">
-              {listingData?.images.map((image, index) => (
+              {listingData?.images?.[1] && (
                 <img
-                  key={`property_image_${index}`}
-                  src={image}
+                  src={listingData.images[1]}
                   alt="property image"
-                  className="w-full object-cover flex-1 rounded-xl"
+                  className="w-full flex-1 object-cover rounded-xl"
                 />
-              ))}
+              )}
+
+              {listingData?.images?.[2] && (
+                <img
+                  src={listingData.images[2]}
+                  alt="property image"
+                  className="w-full flex-1 object-cover rounded-xl"
+                />
+              )}
             </div>
           </div>
           <div className="flex justify-between">
@@ -103,7 +112,10 @@ export default function PropertyList() {
                 />
               </div>
             </div>
-            <AgentInfo />
+            <AgentInfo
+              userId={listingData?.userId}
+              contact={listingData?.contact}
+            />
           </div>
           <div className="my-7">
             <h3 className="text-lg font-semibold mb-2">Description</h3>
