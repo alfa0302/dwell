@@ -15,7 +15,8 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      window.location.href = "/login";
+      // window.location.href = "/auth";
+      console.warn("Unauthorized");
     } else if (error.response?.status === 500) {
       console.error("Server error");
     } else if (error.code === "ECONNABORTED") {

@@ -1,4 +1,6 @@
 const express = require("express");
+const http = require("http");
+const { Server } = require("socket.io");
 require("dotenv").config();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -10,11 +12,20 @@ const userRouter = require("./routes/userRoutes");
 const savedPostRouter = require("./routes/savedPostRoutes");
 const chatRouter = require("./routes/chatRoutes");
 const messageRouter = require("./routes/messageRoutes");
+const initializeSocket = require("./socket/socket");
 
 const app = express();
-console.log(process.env.MONGO_URI_DEV);
 dbConnect();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  },
+});
+initializeSocket(io);
 
+app.set("io", io);
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -56,6 +67,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log(`SERVER RUNNING ON PORT ${process.env.PORT}`);
 });

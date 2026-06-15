@@ -8,14 +8,17 @@ const achievements = [
 
 export default function Achievements() {
   return (
-    <div className="flex gap-5">
+    <div className="flex md:gap-5 gap-2">
       {achievements.map((item, index) => (
-        <div className="flex flex-col gap-1" key={`achievement-${index}`}>
-          <div className="text-4xl font-semibold">
+        <div
+          className="flex flex-col gap-1 bg-[rgba(255,255,255,0.15)] p-2 rounded-lg "
+          key={`achievement-${index}`}
+        >
+          <div className="md:text-3xl text-xl font-semibold ">
             {item.value}
             {item.plus ? " +" : ""}
           </div>
-          <div className="text-shadow-2xl shadow-white">{item.desc}</div>
+          <div className="text-sm">{item.desc}</div>
         </div>
       ))}
     </div>

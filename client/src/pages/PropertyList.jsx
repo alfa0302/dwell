@@ -18,11 +18,17 @@ import { useParams } from "react-router-dom";
 import Details from "../components/ui/propertyListing/Details";
 import SaveListing from "../components/ui/propertyListing/SaveListing";
 import AgentInfo from "../components/ui/propertyListing/AgentInfo";
+import UpdateListingLayout from "../components/ui/propertyListing/UpdateListingLayout";
+import useAuthStore from "../store/authStore";
+import Swiper from "../components/ui/Swiper";
+import PageLoader from "../components/ui/PageLoader";
 
 export default function PropertyList() {
   const [openSlider, setOpenSlider] = useState(false);
   const [listingData, setListingData] = useState("");
+  const [showSwiper, setShowSwiper] = useState(false);
   const { id } = useParams();
+  const { user } = useAuthStore();
   const fetchListing = async () => {
     try {
       const response = await axiosInstance.get(API_PATHS.POST.GETBYID(id));
@@ -36,14 +42,14 @@ export default function PropertyList() {
   }, [id]);
 
   if (!listingData) {
-    return <div>Loading..</div>;
+    return <PageLoader />;
   }
   return (
     <div className="">
       <PageLayout>
-        <div className="px-30 mt-30">
+        <div className="px-30 my-30">
           <div className="flex justify-between items-center">
-            <div>
+            <div className="">
               <h2 className="text-2xl font-semibold mb-2">
                 {listingData?.title}
               </h2>
@@ -51,15 +57,19 @@ export default function PropertyList() {
                 <IoLocationOutline /> {listingData?.location?.address}
               </p>
             </div>
-            <SaveListing postId={listingData?._id} />
+            {user._id !== listingData?.userId ? (
+              <SaveListing postId={listingData?._id} />
+            ) : (
+              <UpdateListingLayout property={listingData ? listingData : ""} />
+            )}
           </div>
-          <div className="flex mb-5">
-            <div className="flex-1 p-2">
+          <div className="flex mb-5" onClick={() => setShowSwiper(true)}>
+            <div className="flex-1 p-1">
               {listingData?.images?.[0] && (
                 <img
                   src={listingData.images[0]}
                   alt="property image"
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-full object-cover"
                 />
               )}
             </div>
@@ -68,7 +78,7 @@ export default function PropertyList() {
                 <img
                   src={listingData.images[1]}
                   alt="property image"
-                  className="w-full flex-1 object-cover rounded-xl"
+                  className="w-full flex-1 object-cover"
                 />
               )}
 
@@ -76,12 +86,12 @@ export default function PropertyList() {
                 <img
                   src={listingData.images[2]}
                   alt="property image"
-                  className="w-full flex-1 object-cover rounded-xl"
+                  className="w-full flex-1 object-cover"
                 />
               )}
             </div>
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between items-center">
             <div className="w-[70%]">
               <div className="flex items-center gap-2 mb-3">
                 <FaSquare className="w-4 h-4 text-blue-500" />
@@ -92,15 +102,15 @@ export default function PropertyList() {
               </div>
               <div className="flex items-center gap-10 mb-5 text-[16px]font-semibold ">
                 <div className="flex gap-2 items-center">
-                  <IoBedOutline />
+                  <IoBedOutline className="text-yellow-500" />
                   <span>{listingData?.details.bedrooms} Bed Room</span>
                 </div>
                 <div className="flex gap-2 items-center">
-                  <PiBathtub />
+                  <PiBathtub className="text-yellow-500" />
                   <span>{listingData?.details.bathrooms} Bath</span>
                 </div>
                 <div className="flex gap-2 items-center">
-                  <BiArea />
+                  <BiArea className="text-yellow-500" />
                   <span>{listingData?.details.size} SQ FT</span>
                 </div>
               </div>
@@ -112,17 +122,23 @@ export default function PropertyList() {
                 />
               </div>
             </div>
-            <AgentInfo
-              userId={listingData?.userId}
-              contact={listingData?.contact}
-            />
+            {user._id !== listingData?.userId && (
+              <AgentInfo
+                userId={listingData?.userId}
+                contact={listingData?.contact}
+              />
+            )}
           </div>
           <div className="my-7">
             <h3 className="text-lg font-semibold mb-2">Description</h3>
             <p className="text-gray-700">{listingData?.description}</p>
           </div>
+          <PropertyMap properties={listingData} />
         </div>
       </PageLayout>
+      {showSwiper && (
+        <Swiper images={listingData.images} setShowSwiper={setShowSwiper} />
+      )}
     </div>
   );
 }

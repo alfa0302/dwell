@@ -9,6 +9,8 @@ import Auth from "./pages/Auth";
 import useAuthStore from "./store/authStore";
 import CreateListing from "./pages/CreateListing";
 import ProtectRoute from "./pages/ProtectRoute";
+import Chat from "./pages/Chat";
+import UpdateListing from "./pages/UpdateListing";
 
 export default function App() {
   const fetchCurrentUser = useAuthStore((state) => state.fetchCurrentUser);
@@ -43,8 +45,31 @@ export default function App() {
             </ProtectRoute>
           }
         />
+        <Route
+          path="/chat"
+          element={
+            <ProtectRoute>
+              <Chat />
+            </ProtectRoute>
+          }
+        />
         <Route path="/auth" element={<Auth />} />
-        <Route path="/create-listing" element={<CreateListing />} />
+        <Route
+          path="/create-listing"
+          element={
+            <ProtectRoute>
+              <CreateListing />
+            </ProtectRoute>
+          }
+        />
+        <Route
+          path="/update-listing/:id"
+          element={
+            <ProtectRoute>
+              <UpdateListing />
+            </ProtectRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

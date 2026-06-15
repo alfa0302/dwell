@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
 @import "tailwindcss";
 
 @layer base {
@@ -10,20 +10,43 @@
 
   body {
     overflow-x: hidden;
-    font-family: 'Raleway', sans-serif;
+    font-family: "Merriweather", serif;
     font-weight: 500;
-    /* background-color: rgb(227, 227, 227); */
-    /* letter-spacing: 0.8px; */
   }
+}
+
+.text-yellow {
+  color: rgb(216, 183, 139)
+}
+
+.bg-yellow {
+  background-color: rgb(216, 183, 139);
+  color: white
+}
+
+.bg-black2 {
+  background-color: rgb(21, 21, 21);
+}
+
+.section-gap {
+  @apply lg:my-20 my-10 lg:mx-30 md:mx-10 mx-5
 }
 
 /* hero */
 .btn-primary {
-  @apply uppercase text-white bg-yellow-500 py-1.5 text-sm px-6 cursor-pointer
+  @apply uppercase text-white bg-yellow-500 py-1.5 text-sm px-6 cursor-pointer text-[13px] md:text-sm
 }
 
 .btn-secondary {
-  @apply uppercase text-yellow-500 font-semibold border border-yellow-500 py-2 px-8 cursor-pointer text-sm
+  @apply uppercase text-yellow-500 font-semibold border border-yellow-500 py-1.5 px-8 cursor-pointer text-[13px] md:text-sm
+}
+
+.heading {
+  @apply text-3xl md:text-6xl font-bold
+}
+
+.sub-heading {
+  @apply text-3xl md:text-5xl font-bold
 }
 
 /* about page */
@@ -41,4 +64,72 @@
   height: 0px;
   display: none;
   background: transparent;
+}
+
+/* page loader */
+.spinner {
+  transform-origin: center;
+  animation: rotate 1s linear infinite;
+}
+
+.path {
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+/* loading dots animation */
+.loading-dot {
+  animation: blink 1.4s infinite both;
+  transform-origin: center;
+}
+
+.dot-1 {
+  animation-delay: 0s;
+}
+
+.dot-2 {
+  animation-delay: 0.2s;
+}
+
+.dot-3 {
+  animation-delay: 0.4s;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }

@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 export default function SearchHome() {
   const [formData, setFormData] = useState({
-    location: "",
+    search: "",
     minPrice: "",
     maxPrice: "",
     category: "buy",
   });
   const [selectedButton, setSelectedButton] = useState("b1");
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -18,7 +19,15 @@ export default function SearchHome() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    if (!formData.search && !formData.minPrice && !formData.maxPrice) {
+      return;
+    }
+    const queryParams = new URLSearchParams();
+    if (formData.search) queryParams.append("search", formData.search);
+    if (formData.minPrice) queryParams.append("minPrice", formData.minPrice);
+    if (formData.maxPrice) queryParams.append("maxPrice", formData.maxPrice);
+    if (formData.category) queryParams.append("purpose", formData.category);
+    navigate(`/list?${queryParams.toString()}`);
   };
   const handleClick = (value) => {
     setFormData((prev) => ({
@@ -26,11 +35,15 @@ export default function SearchHome() {
       category: value,
     }));
   };
+  const inputStyle =
+    "rounded-lg p-1 focus:bg-transparent outline-none w-full border md:border-0";
+  const buttonStyle =
+    "border border-whitte text-white px-4 w-30 md:py-2 py-1 flex justify-center cursor-pointer rounded-lg w-full";
   return (
-    <div>
-      <div className="flex">
+    <div className="flex flex-col gap-2 items-start">
+      <div className="bg-[rgba(255,255,255,0.15)] rounded-lg  flex gap-1 p-1">
         <button
-          className={`py-3 px-3 text-sm cursor-pointer text-white ${selectedButton === "b1" ? "bg-black text-white" : "border border-b-0 border-r-0 border-white bg-transparent"}`}
+          className={`p-2 text-sm cursor-pointer text-white ${selectedButton === "b1" ? "bg-black text-white rounded-lg" : " border-white bg-transparent"}`}
           onClick={() => {
             handleClick("buy");
             setSelectedButton("b1");
@@ -39,7 +52,7 @@ export default function SearchHome() {
           Buy
         </button>
         <button
-          className={`py-3 px-3 text-sm cursor-pointer text-white ${selectedButton === "b2" ? "bg-black text-white" : " border border-b-0 border-l-0 border-white bg-transparent"}`}
+          className={`p-2 text-sm cursor-pointer text-white ${selectedButton === "b2" ? "bg-black text-white rounded-lg" : " border-white bg-transparent"}`}
           onClick={() => {
             handleClick("rent");
             setSelectedButton("b2");
@@ -48,43 +61,38 @@ export default function SearchHome() {
           Rent
         </button>
       </div>
-      <div>
-        <form
-          className="flex border text-sm bg-white ps-2"
-          onSubmit={handleSubmit}
-        >
-          <input
-            type="text"
-            placeholder="City/Location"
-            name="location"
-            className="text-black outline-none"
-            value={formData.location}
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            placeholder="Min price"
-            name="minPrice"
-            className="text-black outline-none"
-            value={formData.minPrice}
-            onChange={handleChange}
-          />
-          <input
-            type="number"
-            placeholder="Max price"
-            name="maxPrice"
-            className="text-black outline-none"
-            value={formData.maxPrice}
-            onChange={handleChange}
-          />
-          <button
-            className="bg-yellow-500 text-white px-4 w-30 py-2 flex justify-center cursor-pointer"
-            type="submit"
-          >
-            <CiSearch className="text-2xl" />
-          </button>
-        </form>
-      </div>
+      <form
+        className="bg-[rgba(255,255,255,0.15)] flex md:flex-row flex-col items-start w-full gap-1 text-sm p-1  rounded-lg"
+        onSubmit={handleSubmit}
+      >
+        <input
+          type="text"
+          placeholder="City/Location"
+          name="search"
+          className={inputStyle}
+          value={formData.search}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          placeholder="Min price"
+          name="minPrice"
+          className={inputStyle}
+          value={formData.minPrice}
+          onChange={handleChange}
+        />
+        <input
+          type="number"
+          placeholder="Max price"
+          name="maxPrice"
+          className={inputStyle}
+          value={formData.maxPrice}
+          onChange={handleChange}
+        />
+        <button className={buttonStyle} type="submit">
+          <CiSearch className="text-2xl" />
+        </button>
+      </form>
     </div>
   );
 }

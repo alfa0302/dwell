@@ -13,30 +13,25 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-export default function PropertyMap({ properties, height = "500px" }) {
-  const center =
-    properties.length === 1
-      ? [properties[0].coordinates.lat, properties[0].coordinates.lng]
-      : [25.2048, 55.2708];
-
-  const zoom = properties.length === 1 ? 14 : 11;
+export default function PropertyMap({ height = "300px" }) {
+  const DUBAI_CENTER = [25.2048, 55.2708];
+  const zoom = 11;
 
   return (
-    <div className="sticky top-20">
+    <div className="mt-20">
       <MapContainer
-        center={center}
+        center={DUBAI_CENTER}
         zoom={zoom}
         scrollWheelZoom={true}
         zoomControl={false}
-        className={`w-full rounded-2xl h-[${height}]`}
-        style={{ height: height }}
+        className="w-full rounded-2xl"
+        style={{ height }}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors &copy; CARTO"
           url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
         />
-
-        {properties.map((property) => (
+        {/* {properties?.map((property) => (
           <Marker
             key={property.id}
             position={[property.coordinates.lat, property.coordinates.lng]}
@@ -56,7 +51,7 @@ export default function PropertyMap({ properties, height = "500px" }) {
               </div>
             </Popup>
           </Marker>
-        ))}
+        ))} */}
       </MapContainer>
     </div>
   );

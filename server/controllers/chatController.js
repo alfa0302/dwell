@@ -1,5 +1,6 @@
 const Chat = require("../models/Chat");
 const Message = require("../models/Message");
+const User = require("../models/User");
 
 const getChats = async (req, res) => {
   try {
@@ -22,7 +23,10 @@ const getChats = async (req, res) => {
 };
 const getChatById = async (req, res) => {
   try {
-    const chat = await Chat.findById(req.params.id).populate("users");
+    const chat = await Chat.findById(req.params.id).populate(
+      "users",
+      "-password",
+    );
     if (!chat) {
       return res.status(404).json({
         success: false,
@@ -41,11 +45,14 @@ const getChatById = async (req, res) => {
     const messages = await Message.find({
       chatId: chat._id,
     })
-      .populate("userId", "name email")
+      .populate("userId", "name email avatar")
       .sort({ createdAt: 1 });
     return res.status(200).json({
       success: true,
-      data: chat,
+      data: {
+        chat,
+        messages,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -71,6 +78,13 @@ const addChat = async (req, res) => {
       });
     }
 
+    const user = await User.findById(receiverId);
+    if (!user) {
+      return res.status(404).json({
+        message: "Receiver user not found",
+      });
+    }
+
     let chat = await Chat.findOne({
       users: {
         $all: [req.user._id, receiverId],
@@ -89,9 +103,9 @@ const addChat = async (req, res) => {
       seenBy: [req.user._id],
     });
 
-    chat = await Chat.findById(chat._id).populate("users");
+    chatWithUsers = await Chat.findById(chat._id).populate("users");
 
-    res.status(201).json(chat);
+    return res.status(201).json(chatWithUsers);
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -128,7 +142,7 @@ const readChat = async (req, res) => {
 
     const updatedChat = await Chat.findById(chatId);
 
-    res.status(200).json(updatedChat);
+    return res.status(200).json(updatedChat);
   } catch (error) {
     res.status(500).json({
       message: error.message,

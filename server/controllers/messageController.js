@@ -39,8 +39,18 @@ const addMessage = async (req, res) => {
       lastMessage: text,
       seenBy: [req.user._id],
     });
+    const populatedMessage = await Message.findById(message._id).populate(
+      "userId",
+      "_id email avatar",
+    );
+    const io = req.app.get("io");
 
-    res.status(201).json(message);
+    io.to(chatId).emit("receive_message", populatedMessage);
+
+    res.status(201).json({
+      success: true,
+      data: populatedMessage,
+    });
   } catch (error) {
     res.status(500).json({
       message: error.message,

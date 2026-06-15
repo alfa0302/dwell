@@ -79,11 +79,8 @@ export default function Details({ details, utilities }) {
           text = item.label(value);
         }
         return (
-          <div
-            key={item.key}
-            className="flex items-center gap-2 bg-gray-300 py-1 px-2 rounded-lg text-gray-700"
-          >
-            <Icon />
+          <div key={item.key} className="flex items-center gap-2 text-gray-800">
+            <Icon className="text-yellow-500" />
             <span>{text}</span>
           </div>
         );

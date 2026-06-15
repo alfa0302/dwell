@@ -52,13 +52,14 @@ export default function Input({
         </label>
         <div className="border border-black py-2 px-3 rounded-lg flex justify-between gap-1">
           <input
-            type="text"
+            type={type}
             id={title}
             name={title}
             placeholder={placeholder}
             className="flex-1 outline-none text-sm"
             onChange={onChange}
             required={required}
+            value={value}
           />
         </div>
       </div>

@@ -45,7 +45,7 @@ export default function Login({ setShow }) {
   };
 
   return (
-    <div className="flex flex-col gap-3 min-w-[50%] md:min-w-[70%] lg:min-w-[50%]">
+    <div className="flex flex-col gap-3 min-w-[60%] md:min-w-[70%] lg:min-w-[50%] justify-center">
       <h2 className="text-xl font-semibold">Welcome Back to Dwell!</h2>
 
       <h3 className="text-sm text-gray-500">Sign in to your account</h3>

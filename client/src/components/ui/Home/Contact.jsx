@@ -5,36 +5,33 @@ import {
   HiOutlineLocationMarker,
 } from "react-icons/hi";
 
+const style = {
+  backgroundImage: "linear-gradient(rgba(0,0,0,0.15)),url('/ready-to.png')",
+  backgroundPosition: "center",
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+};
+import { Link } from "react-router-dom";
+
 export default function Contact() {
   return (
-    <section className="w-screen flex" id="contact">
-      <div className="w-[50%]">
-        <img src="/contact3.jpg" alt="contact section image" />
-      </div>
-      <div className="w-[50%] bg-slate-950 flex justify-center items-center flex-col gap-8 text-white">
-        <h2 className="text-3xl italic">We’d Love To Hear From You</h2>
-        <p className="text-center italic w-[50%]">
-          Whether you have questions about listings, need technical support, or
-          want help finding the right property, our team is here to
-          assist.Whether you have questions about listings, need technical
-          support, or want help finding the right property, our team is here to
-          assist.
+    <section className="flex md:p-10 p-2">
+      <div
+        style={style}
+        className="min-h-[80vh] w-full rounded-lg flex flex-col items-center justify-center gap-10 py-20"
+      >
+        <h2 className="sub-heading text-white text-center">
+          Find the perfect place <br /> to call home
+        </h2>
+        <p className="text-white lg:w-[40%] md:w-[70%] w-[90%] text-center">
+          Explore a curated collection of properties designed to match your
+          lifestyle, budget, and future aspirations.
         </p>
-        <button className="btn-primary">contact now</button>
-        <div className="flex flex-col gap-2 justify-center items-center">
-          <div className="flex items-center gap-2">
-            <HiOutlineMail className="text-xl" />
-            <span>support@dwell.com</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <HiOutlinePhone className="text-xl" />
-            <span>+971 XX XXX XXXX</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <HiOutlineLocationMarker className="text-xl" />
-            <span>Office 000, Business Tower, Dubai, UAE</span>
-          </div>
-        </div>
+        <Link to="/list">
+          <button className="bg-black hover:bg-neutral-800 transition-colors px-6 py-3.5 md:px-8 md:py-4 text-white text-sm md:text-base font-medium rounded-xl shadow-md cursor-pointer">
+            Explore Properties
+          </button>
+        </Link>
       </div>
     </section>
   );

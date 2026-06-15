@@ -14,6 +14,8 @@ export default function SignUp({ setShow }) {
     password: "",
     confirmPassword: "",
     avatar: "",
+    bio: "",
+    phone: "",
   });
   const [image, setImage] = useState(null);
   const [formError, setFormError] = useState("");
@@ -45,7 +47,9 @@ export default function SignUp({ setShow }) {
       !formData.username ||
       !formData.email ||
       !formData.password ||
-      !formData.confirmPassword
+      !formData.confirmPassword ||
+      !formData.phone ||
+      !formData.bio
     ) {
       return setFormError("All fields are required");
     }
@@ -86,7 +90,7 @@ export default function SignUp({ setShow }) {
   }, [preview]);
 
   return (
-    <div className="flex flex-col min-w-[50%] gap-3 md:min-w-[70%] lg:min-w-[50%]">
+    <div className="flex flex-col min-w-[60%] gap-3 md:min-w-[70%] lg:min-w-[85%] justify-center">
       <h2 className="text-xl font-semibold">Welcome to Dwell!</h2>
 
       <h3 className="text-sm text-gray-500">Create your account to continue</h3>
@@ -123,33 +127,60 @@ export default function SignUp({ setShow }) {
           value={formData.username}
           onChange={handleChange}
         />
+        <div className="w-full grid lg:grid-cols-2 grid-cols-1 gap-3">
+          <Input
+            type="email"
+            title="email"
+            label="Enter email"
+            placeholder="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <Input
+            type="text"
+            title="phone"
+            label="phone"
+            placeholder="+971 000000000"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+          <Input
+            type="password"
+            title="password"
+            label="Enter password"
+            placeholder="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
 
-        <Input
-          type="email"
-          title="email"
-          label="Enter email"
-          placeholder="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
+          <Input
+            type="password"
+            title="confirmPassword"
+            label="Confirm password"
+            placeholder="confirm password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label
+            htmlFor="bio"
+            className="text-sm after:content-['_*'] after:text-red-500 after:text-lg after:align-middle"
+          >
+            Bio
+          </label>
 
-        <Input
-          type="password"
-          title="password"
-          label="Enter password"
-          placeholder="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-
-        <Input
-          type="password"
-          title="confirmPassword"
-          label="Confirm password"
-          placeholder="confirm password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
+          <textarea
+            id="bio"
+            name="bio"
+            placeholder="Enter user bio"
+            value={formData.bio}
+            className="border border-black py-2 px-3 rounded-lg outline-none text-sm"
+            onChange={handleChange}
+            rows={1}
+            required
+          />
+        </div>
         <button type="submit" className="btn-primary rounded-lg">
           {loading ? "Please Wait" : "Sign Up"}
         </button>

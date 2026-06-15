@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { validatePhoneNumber, isValidEmail } = require("../utils/helper");
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
@@ -14,8 +15,9 @@ const cookieOptions = {
 
 const signUpUser = async (req, res) => {
   try {
-    const { username, email, password, role } = req.body;
-    if (!username || !password || !email) {
+    const { username, email, password, bio, phone } = req.body;
+    let role = "user";
+    if (!username || !password || !email || !phone) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
@@ -27,12 +29,24 @@ const signUpUser = async (req, res) => {
         message: "Password should be atleast 8 characters",
       });
     }
-    if (role !== "user") {
+    if (!isValidEmail(email)) {
       return res.status(400).json({
         success: false,
-        message: "Role should be user",
+        message: "Invalid email address",
       });
     }
+    if (!validatePhoneNumber(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: "Enter a valid UAE number",
+      });
+    }
+    // if (role !== "user") {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Role should be user",
+    //   });
+    // }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -46,6 +60,8 @@ const signUpUser = async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      bio,
+      phone,
     });
     const token = generateToken(user._id);
     res.cookie("token", token, cookieOptions);
@@ -57,6 +73,8 @@ const signUpUser = async (req, res) => {
         email: user.email,
         role: user.role,
         avatar: user.avatar,
+        bio: user.bio,
+        phone: user.phone,
       },
     });
   } catch (error) {

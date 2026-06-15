@@ -6,6 +6,7 @@ export default function Select({
   options,
   onChange,
   required = true,
+  value,
 }) {
   return (
     <div className="flex flex-col gap-1">
@@ -22,7 +23,7 @@ export default function Select({
           name={title}
           className="flex-1 outline-none text-sm bg-transparent"
           onChange={onChange}
-          defaultValue=""
+          value={value}
           required={required}
         >
           <option value="" disabled>

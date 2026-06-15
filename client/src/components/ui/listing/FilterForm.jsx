@@ -1,122 +1,238 @@
-import React, { useState } from "react";
-import { CiSearch, CiLocationOn, CiHome, CiDollar } from "react-icons/ci";
-import { FaBed, FaBath } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { CiSearch, CiLocationOn, CiMoneyCheck1 } from "react-icons/ci";
+import { FaBed, FaBath, FaCar } from "react-icons/fa";
+import {
+  MdPets,
+  MdHouseSiding,
+  MdAttachMoney,
+  MdOutlineLocationOn,
+} from "react-icons/md";
+import { RiSofaLine, RiBuilding4Line } from "react-icons/ri";
 
-export default function FilterForm() {
-  const fieldStyle =
-    "flex items-center gap-2 bg-white text-gray-500 text-sm py-2 px-3 rounded-2xl border border-gray-300";
-  const inputStyle = "outline-none bg-transparent";
+export default function FilterForm({ currentFilter }) {
+  const navigate = useNavigate();
+
+  const styles = {
+    container: "mb-10 flex justify-center px-4 lg:px-20 px-10",
+
+    form: `
+    flex flex-wrap justify-center items-start gap-3 w-full
+  `,
+
+    field: `
+    flex items-center gap-2
+    border border-gray-300 rounded-lg
+    px-4 py-2 bg-white text-sm text-gray-600
+    w-full sm:w-[calc(50%-0.375rem)] md:w-[200px]
+  `,
+
+    input: `
+    outline-none bg-transparent w-full
+    text-gray-700 placeholder:text-gray-400
+  `,
+
+    select: `
+    outline-none bg-transparent w-full
+    text-gray-700 cursor-pointer
+  `,
+
+    submitButton: `
+    flex items-center justify-center gap-2
+    bg-yellow-500 text-white rounded-lg
+    px-4 py-2 cursor-pointer text-sm
+    w-full sm:w-[calc(50%-0.375rem)] md:w-[100px]
+  `,
+  };
 
   const [formData, setFormData] = useState({
-    location: "",
+    search: "",
+    city: "",
     type: "any",
     property: "any",
-    minPrice: 0,
-    maxPrice: 0,
-    bedrooms: "1",
-    bathrooms: "1",
+    status: "any",
+    minPrice: "",
+    maxPrice: "",
+    minBedrooms: "any",
+    minBathrooms: "any",
+    minSize: "",
+    minParking: "any",
+    furnished: "any",
+    petsAllowed: "any",
+    electricityIncluded: "any",
+    waterIncluded: "any",
+    internetIncluded: "any",
+    gasIncluded: "any",
+    amenities: "any",
   });
 
+  useEffect(() => {
+    setFormData((prev) => ({
+      ...prev,
+      ...currentFilter,
+    }));
+  }, [currentFilter]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value !== "" && value !== "any" && value !== null) {
+        params.set(key, value);
+      }
+    });
+    navigate(`/list?${params.toString()}`);
+  };
+
+  const fields = [
+    {
+      name: "city",
+      type: "input",
+      inputType: "text",
+      placeholder: "Location",
+      icon: <MdOutlineLocationOn size={20} />,
+    },
+    {
+      name: "type",
+      type: "select",
+      icon: <MdHouseSiding size={20} />,
+      options: [
+        { label: "Purpose", value: "any" },
+        { label: "Rent", value: "rent" },
+        { label: "Buy", value: "buy" },
+      ],
+    },
+    {
+      name: "property",
+      type: "select",
+      icon: <RiBuilding4Line size={20} />,
+      options: [
+        { label: "Property Type", value: "any" },
+        { label: "Apartment", value: "apartment" },
+        { label: "House", value: "house" },
+        { label: "Condo", value: "condo" },
+        { label: "Land", value: "land" },
+      ],
+    },
+    {
+      name: "minPrice",
+      type: "input",
+      inputType: "number",
+      placeholder: "Min Price",
+      icon: <MdAttachMoney size={20} />,
+    },
+    {
+      name: "maxPrice",
+      type: "input",
+      inputType: "number",
+      placeholder: "Max Price",
+      icon: <MdAttachMoney size={20} />,
+    },
+    {
+      name: "minBedrooms",
+      type: "select",
+      icon: <FaBed size={16} />,
+      options: [
+        { label: "Bedrooms", value: "any" },
+        { label: "1+", value: "1" },
+        { label: "2+", value: "2" },
+        { label: "3+", value: "3" },
+        { label: "4+", value: "4" },
+        { label: "5+", value: "5" },
+      ],
+    },
+    {
+      name: "minBathrooms",
+      type: "select",
+      icon: <FaBath size={16} />,
+      options: [
+        { label: "Bathrooms", value: "any" },
+        { label: "1+", value: "1" },
+        { label: "2+", value: "2" },
+        { label: "3+", value: "3" },
+        { label: "4+", value: "4" },
+      ],
+    },
+    {
+      name: "minParking",
+      type: "select",
+      icon: <FaCar size={16} />,
+      options: [
+        { label: "Parking", value: "any" },
+        { label: "1+", value: "1" },
+        { label: "2+", value: "2" },
+        { label: "3+", value: "3" },
+      ],
+    },
+    {
+      name: "furnished",
+      type: "select",
+      icon: <RiSofaLine size={20} />,
+      options: [
+        { label: "Furnished", value: "any" },
+        { label: "Yes", value: "true" },
+        { label: "No", value: "false" },
+      ],
+    },
+    {
+      name: "petsAllowed",
+      type: "select",
+      icon: <MdPets size={20} />,
+      options: [
+        { label: "Pets", value: "any" },
+        { label: "Allowed", value: "true" },
+        { label: "Not Allowed", value: "false" },
+      ],
+    },
+  ];
+
   return (
-    <div className="mt-30 mb-10">
-      {/* <h2 className="text-2xl font-semibold mb-4">Search..</h2> */}
-      <div className="flex justify-center">
-        <form className="inline-flex flex-wrap gap-3 items-center justify-center border border-gray-300 py-2 px-2 rounded-full">
-          <div className={fieldStyle}>
-            <CiLocationOn size={20} />
-            <input
-              type="text"
-              name="location"
-              placeholder="Location"
-              className={inputStyle}
-            />
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        {fields.map((field) => (
+          <div key={field.name} className={styles.field}>
+            {field.icon}
+
+            {field.type === "input" ? (
+              <input
+                type={field.inputType}
+                name={field.name}
+                value={formData[field.name]}
+                onChange={handleChange}
+                placeholder={field.placeholder}
+                className={styles.input}
+              />
+            ) : (
+              <select
+                name={field.name}
+                value={formData[field.name]}
+                onChange={handleChange}
+                className={styles.select}
+              >
+                {field.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
-          <div className={fieldStyle}>
-            <CiHome size={20} />
-            <select
-              name="type"
-              id="type"
-              className={inputStyle}
-              defaultValue="any"
-            >
-              <option value="any">Any</option>
-              <option value="rent">Rent</option>
-              <option value="buy">Buy</option>
-            </select>
-          </div>
-          <div className={fieldStyle}>
-            <CiHome size={20} />
-            <select
-              name="property"
-              id="property"
-              className={inputStyle}
-              defaultValue="any"
-            >
-              <option value="any">Any</option>
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="condo">Condo</option>
-              <option value="land">Land</option>
-            </select>
-          </div>
-          <div className={fieldStyle}>
-            <CiDollar size={20} />
-            <input
-              type="number"
-              name="minPrice"
-              placeholder="Min Price"
-              className={inputStyle}
-            />
-          </div>
-          <div className={fieldStyle}>
-            <CiDollar size={20} />
-            <input
-              type="number"
-              name="maxPrice"
-              placeholder="Max Price"
-              className={inputStyle}
-            />
-          </div>
-          <div className={fieldStyle}>
-            <FaBed size={16} />
-            <select
-              name="bedrooms"
-              id="bedrooms"
-              className={inputStyle}
-              defaultValue="any"
-            >
-              <option value="any">Any</option>
-              <option value="1">1 Bedroom</option>
-              <option value="2">2 Bedrooms</option>
-              <option value="3">3 Bedrooms</option>
-              <option value="4">4 Bedrooms</option>
-              <option value="5">5+ Bedrooms</option>
-            </select>
-          </div>
-          <div className={fieldStyle}>
-            <FaBath size={16} />
-            <select
-              name="bathrooms"
-              id="bathrooms"
-              className={inputStyle}
-              defaultValue="any"
-            >
-              <option value="any">Any</option>
-              <option value="1">1 Bathroom</option>
-              <option value="2">2 Bathrooms</option>
-              <option value="3">3 Bathrooms</option>
-              <option value="4">4 Bathrooms</option>
-              <option value="5">5+ Bathrooms</option>
-            </select>
-          </div>
-          <button
-            type="submit"
-            className="bg-yellow-500 text-white font-bold p-2 rounded-full cursor-pointer"
-          >
-            <CiSearch size={22} />
-          </button>
-        </form>
-      </div>
+        ))}
+
+        <button type="submit" className={styles.submitButton}>
+          Search
+          <CiSearch size={22} />
+        </button>
+      </form>
     </div>
   );
 }
